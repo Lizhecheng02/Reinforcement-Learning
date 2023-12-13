@@ -23,7 +23,7 @@ NUM_OF_EPISODES = 50_000
 
 env = gym_super_mario_bros.make(
     ENV_NAME,
-    render_mode="human" if DISPLAY else "rgb",
+    render_mode="human" if DISPLAY else "rgb_array",
     apply_api_compatibility=True
 )
 env = JoypadSpace(env, RIGHT_ONLY)
