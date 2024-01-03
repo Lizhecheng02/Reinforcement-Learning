@@ -13,7 +13,7 @@ if __name__ == "__main__":
     agent = Agent(
         gamma=0.9,
         epsilon=1.0,
-        alpha=5e-4,
+        lr=5e-4,
         input_dims=[8],
         n_actions=4,
         mem_size=100000,

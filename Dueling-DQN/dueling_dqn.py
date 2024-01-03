@@ -41,7 +41,7 @@ class ReplayBuffer:
 
 
 class DuelingDeepQNetwork(nn.Module):
-    def __init__(self, alpha, n_actions, name, input_dims, chkpt_dir="tmp/ddqn"):
+    def __init__(self, lr, n_actions, name, input_dims, chkpt_dir="tmp/ddqn"):
         super(DuelingDeepQNetwork, self).__init__()
 
         self.fc1 = nn.Linear(*input_dims, 128)
@@ -49,7 +49,7 @@ class DuelingDeepQNetwork(nn.Module):
         self.V = nn.Linear(128, 1)
         self.A = nn.Linear(128, n_actions)
 
-        self.optimizer = optim.Adam(self.parameters(), lr=alpha)
+        self.optimizer = optim.Adam(self.parameters(), lr=lr)
         self.loss = nn.MSELoss()
         self.device = torch.device(
             "cuda:0" if torch.cuda.is_available() else "cpu")
@@ -76,7 +76,7 @@ class DuelingDeepQNetwork(nn.Module):
 
 
 class Agent(object):
-    def __init__(self, gamma, epsilon, alpha, n_actions, input_dims,
+    def __init__(self, gamma, epsilon, lr, n_actions, input_dims,
                  mem_size, batch_size, eps_min=0.01, eps_dec=5e-7,
                  replace=1000, chkpt_dir="tmp/ddqn"):
         self.gamma = gamma
@@ -90,13 +90,13 @@ class Agent(object):
         self.memory = ReplayBuffer(mem_size, input_dims, n_actions)
 
         self.q_eval = DuelingDeepQNetwork(
-            alpha=alpha, n_actions=n_actions,
+            lr=lr, n_actions=n_actions,
             input_dims=input_dims, name="q_eval",
             chkpt_dir=chkpt_dir
         )
 
         self.q_next = DuelingDeepQNetwork(
-            alpha=alpha, n_actions=n_actions,
+            lr=lr, n_actions=n_actions,
             input_dims=input_dims, name="q_next",
             chkpt_dir=chkpt_dir
         )
