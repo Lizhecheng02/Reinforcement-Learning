@@ -47,7 +47,7 @@ if __name__ == "__main__":
             observation = observation_
 
         scores.append(score)
-        avg_score = np.mean(scores[max(0, i - 100): (i + 1)])
+        avg_score = np.mean(scores[max(0, i - 100):(i + 1)])
         print('episode: ', i, 'score %.1f ' % score, ' average score %.1f' %
               avg_score, 'epsilon %.2f' % agent.epsilon)
 
