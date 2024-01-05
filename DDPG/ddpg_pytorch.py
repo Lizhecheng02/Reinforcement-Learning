@@ -268,8 +268,9 @@ class Agent(object):
 
         self.critic.eval()
         self.actor.optimizer.zero_grad()
-        mu = self.actor.forward(state)
         self.actor.train()
+
+        mu = self.actor.forward(state)
         actor_loss = -self.critic.forward(state, mu)
         actor_loss = torch.mean(actor_loss)
         actor_loss.backward()
